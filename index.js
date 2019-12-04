@@ -17,6 +17,7 @@ express()
     .set('views', path.join(__dirname, 'views'))
     .use(cors())
     .set('view engine', 'ejs')
+    .get('/', (req,res) => res.render('pages/index'))
     .get('/employees', async (req, res) => {
         try {
           const client = await pool.connect()
