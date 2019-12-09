@@ -23,14 +23,46 @@ express()
           const client = await pool.connect()
           const result = await client.query('SELECT * FROM employee');
           const results = (result) ? result.rows : [];
-//           res.render('pages/db', results );
-            res.json(results);
+          res.json(results);
           client.release();
         } catch (err) {
           console.error(err);
           res.send("Error " + err);
         }
-      })
+     })
+
+    .get('/:id', async (req, res) => {
+        try{
+            const client = await pool.connect();
+            const result = await client.query('SELECT * FROM account WHERE id=$1::integer;', [req.params.id]);
+            res.send((result) ? result.rows : null);
+        } catch(err) {
+            console.log(err);
+            res.send("Error " + err);
+        }
+    })
+
+    .get('/customer/:id', async (req, res) => {
+        try{
+            const client = await pool.connect();
+            const result = await client.query('SELECT * FROM account WHERE customer_id=$1::integer;', [req.params.id]);
+            res.send((result) ? result.rows : null);
+        } catch(err) {
+            console.log(err);
+            res.send("Error " + err);
+        }
+    })
+
+    .get('/employee/:id', async (req, res) => {
+        try{
+            const client = await pool.connect();
+            const result = await client.query('SELECT * FROM account WHERE employee_id=$1::integer;', [req.params.id]);
+            res.send((result) ? result.rows : null);
+        } catch(err) {
+            console.log(err);
+            res.send("Error " + err);
+        }
+    })
 
     .get('/db', async (req, res) => {
         try {
